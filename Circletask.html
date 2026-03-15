@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./../Bootstrap/bootstrap-5.3.8-dist/css/bootstrap.css">
+    <style>
+        .container{
+           display: flex;
+           flex-wrap: wrap;
+           gap: 10px;
+           background-color: orange;
+           
+        }
+        .circle{
+            height: 100px;
+            width: 100px;
+            border: 2px solid black;
+            border-radius: 50%;
+            box-shadow: 0 0 5px red;
+            cursor: pointer;
+        }
+       
+    </style>
+</head>
+<body>
+    
+     <button id="create" class="btn btn-success">Create circle</button>
+     <button id="Delete" class="btn btn-danger">Delete circle</button>
+    
+    <h3>No.of Circles:<span id="total">0</span></h3>
+    <h3>No.of circles seleccted:<span id="total-selected">0</span></h3>
+   
+        
+   <div class="container"></div>
+   <script>
+  let createbtn=document.getElementById("create");
+  let deletebtn=document.getElementById("Delete");
+  let container =document.querySelector(".container");
+  let allcircles=[]
+
+  createbtn.addEventListener("click",()=>{
+    let object={
+        id:Math.trunc(Math.random()*100000),
+        isselected:false
+    };
+    allcircles.push(object);
+    document.getElementById("total").innerText=allcircles.length;
+    createcircles();
+  });
+  function createcircles() {
+    let str="";
+    allcircles.forEach(ele=> {
+    str +=  `<div class="circle" onclick="selectedcircles(${ele.id})" 
+    style="background-color:${ele.isselected ?"red":"blue"}"></div>`
+    });
+    container.innerHTML=str;
+    
+    document.getElementById("total-selected").innerText=allcircles.filter(ele=>ele.isselected).length;
+  }
+  function selectedcircles(editid) {
+     for(let i=0;i<allcircles.length;i++) {
+        if(allcircles[i].id===editid) {
+        allcircles[i].isselected=!allcircles[i].isselected;
+        break;
+     }
+  }
+//   document.getElementById("total-selected").innerText=allcircles.filter(ele=>ele.isselected).length
+   createcircles()
+  }
+ deletebtn.addEventListener("click",()=> {
+    allcircles=allcircles.filter(ele=>ele.isselected===false)
+    document.getElementById("total").innerText=allcircles.length
+    document.getElementById("total-selected").innerText=allcircles.filter(ele=>ele.isselected).length
+    createcircles();
+ })
+   </script>
+</body>
+</html>
